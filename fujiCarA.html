@@ -10,8 +10,8 @@
 
       function draw() {
         var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
         if (canvas.getContext) {
-          var ctx = canvas.getContext('2d');
           ctx.fillStyle = "#006600";
           ctx.fillRect(0, 0, 780, 600);
           ctx.fillStyle = "#000000";
@@ -19,8 +19,26 @@
           ctx.fillRect(0,180,600,30);
           ctx.fillRect(180,390,600,30);
           ctx.fillRect(570,180,30,420);
+
+          var logoImg = new Image();
+          logoImg.onload = function() {
+
+              ctx.drawImage(logoImg, 0, 0, 175, 100);
+
+          };
+          logoImg.src = "inertiaLog.png";
+
+          var car = new Image();
+          car.onload = function() {
+            ctx.drawImage(car, 10, 182, 28, 28);
+            ctx.drawImage(car, 182, 10, 28, 28);
+            ctx.drawImage(car, 182, 392, 28, 28);
+          };
+          car.src = "car.png";
+
         }
       }
+
 
       function getEventLocation(element,event){
         var pos = getElementPosition(element);
@@ -60,8 +78,6 @@
         }
 
       },false);
-
-
 
     </script>
 
