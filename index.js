@@ -15,8 +15,8 @@ ngrok.connect(PORT).then(function(res, err) {
 
 var key = 0;
 
-var initLocs = [{x: 0, y:0}, {x: 0, y:0}, {x: 0, y:0}];
-var locs = [{x: 195, y:30}, {x: 40, y:195}, {x: 615, y:500}];
+var initLocs = [{x: 185, y:30}, {x: 40, y:185}, {x: 185, y:60}];
+var locs = [{x: 185, y:30}, {x: 40, y:185}, {x: 185, y:60}];
 var dests = [{x: 0, y:0}, {x: 0, y:0}, {x: 0, y:0}];
 var destsBool = [false, false, false];
 
@@ -24,6 +24,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static(__dirname + '/public/js'));
+app.use(express.static(__dirname + '/'));
 
 app.get('/',function(req,res){
   res.sendFile(__dirname+'/public/index.html');
@@ -42,7 +43,7 @@ app.get('/key', function(req, res) {
 app.post('/getLoc', function(req, res) {
   var index = req.body.car;
 
-  res.send(locs[index]);
+  res.send(locs);
 
 });
 
@@ -64,16 +65,16 @@ function calcPos() {
 
   for (var i = 0; i < 3; i++) {
 
-    if (locs[index].x < dests[index].x && canGoRight(index)) {
-      locs[index].x += 5;
-    } else if (locs[index].x > dests[index].x && canGoLeft(index)) {
-      locs[index.x] -= 5;
+    if (locs[i].x < dests[i].x && canGoRight(i)) {
+      locs[i].x += 3;
+    } else if (locs[i].x > dests[i].x && canGoLeft(i)) {
+      locs[i.x] -= 3;
     }
 
-    if (locs[index].y < dests[index].y && canGoDown(index)) {
-      locs[index].y += 5;
-    } else if (locs[index].y > dests[index].y && canGoUp(index)) {
-      locs[index.y] -= 5;
+    if (locs[i].y < dests[i].y && canGoDown(i)) {
+      locs[i].y += 3;
+    } else if (locs[i].y > dests[i].y && canGoUp(i)) {
+      locs[i.y] -= 3;
     }
 
     if (nearBy(locs[i], dests[i])) {
@@ -83,22 +84,22 @@ function calcPos() {
   setTimeout (calcPos, 100);
 }
 
-function canGoUp (index) {
+function canGoUp (i) {
 
-  var dist1 = locs[(index+1)%2].y - locs[index].y;
-  var dist2 = locs[(index+1)%2].x - locs[index].x;
+  var dist1 = locs[(i+1)%2].y - locs[i].y;
+  var dist2 = locs[(i+1)%2].x - locs[i].x;
   if(dist1 < 0 && dist1 > -30 && Math.abs(dist2) < 15) {
     return false;
   }
-  var dist1 = locs[(index+2)%2].y - locs[index].y;
-  var dist2 = locs[(index+2)%2].x - locs[index].x;
+  var dist1 = locs[(i+2)%2].y - locs[i].y;
+  var dist2 = locs[(i+2)%2].x - locs[i].x;
   if(dist1 < 0 && dist1 > -30 && Math.abs(dist2) < 15) {
     return false;
   }
 
-  if (locs[index].x > 180 && locs[index].x < 210) {
+  if (locs[i].x > 180 && locs[i].x < 210) {
     return true;
-  } else if (locs[index].x > 570 && locs[index].x < 600 && locs[index].y > 180) {
+  } else if (locs[i].x > 570 && locs[i].x < 600 && locs[i].y > 180) {
     return true;
   } else {
     return false;

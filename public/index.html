@@ -1,2 +1,90 @@
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
-<script src = "init.js"></script>
+<!DOCTYPE html>
+<html>
+
+  <body onload="draw();">
+
+
+    <canvas id="canvas" width="780" height="600"></canvas>
+
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src = "init.js"></script>
+
+    <script>
+
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var car = new Image();
+      car.src = "car.png";
+
+      var logoImg = new Image();
+      logoImg.src = "inertiaLog.png";
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#006600";
+          ctx.fillRect(0, 0, 780, 600);
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(180,0,30,420);
+          ctx.fillRect(0,180,600,30);
+          ctx.fillRect(180,390,600,30);
+          ctx.fillRect(570,180,30,420);
+
+          ctx.drawImage(car, carLocs[0].x, carLocs[0].y, 28, 28);
+          ctx.drawImage(car, carLocs[1].x, carLocs[1].y, 28, 28);
+          ctx.drawImage(car, carLocs[2].x, carLocs[2].y, 28, 28);
+
+          ctx.drawImage(logoImg, 0, 0, 175, 100);
+
+          window.requestAnimationFrame(draw);
+
+      }
+
+
+      function getEventLocation(element,event){
+        var pos = getElementPosition(element);
+        return {
+        	x: (event.pageX - pos.x),
+          	y: (event.pageY - pos.y)
+        };
+      }
+
+      function getElementPosition(obj) {
+        var curleft = 0, curtop = 0;
+        if (obj.offsetParent) {
+            do {
+                curleft += obj.offsetLeft;
+                curtop += obj.offsetTop;
+            } while (obj = obj.offsetParent);
+            return { x: curleft, y: curtop };
+        }
+        return undefined;
+      }
+
+      function rgbToHex(r, g, b) {
+        if (r > 255 || g > 255 || b > 255)
+            throw "Invalid color component";
+        return ((r << 16) | (g << 8) | b).toString(16);
+      }
+
+      canvas.addEventListener("click",function(event){
+
+        var eventLocation = getEventLocation(this,event);
+        var context = this.getContext('2d');
+        var pixelData = context.getImageData(eventLocation.x, eventLocation.y, 1, 1).data;
+        var hex = ("000000" + rgbToHex(pixelData[0], pixelData[1], pixelData[2])).slice(-6);
+
+        if(hex == "000000"){
+          console.log("X: " + event.clientX + " - Y: " + event.clientY);
+          axios.post('/setDest', {
+            'car': key,
+            'x': event.clientX,
+            'y': event.clientY
+          });
+        }
+
+      },false);
+
+    </script>
+
+  </body>
+</html>

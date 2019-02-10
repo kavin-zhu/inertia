@@ -1,4 +1,5 @@
-var key;
+var key = 0;
+var carLocs = [{x: 185, y:30}, {x: 40, y:185}, {x: 185, y:60}];
 
 axios.get('/key')
 .then(function (res) {
@@ -9,6 +10,6 @@ setInterval(function() {
   axios.post('/getLoc', {
     'car' : key
   }).then(function (res) {
-    console.log(res.data);
+    carLocs = res.data;
   })
 }, 500);

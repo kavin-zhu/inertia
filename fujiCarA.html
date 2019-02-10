@@ -6,6 +6,9 @@
 
     <canvas id="canvas" width="780" height="600"></canvas>
 
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src = "init.js"></script>
+
     <script>
 
       function draw() {
@@ -75,6 +78,11 @@
 
         if(hex == "000000"){
           console.log("X: " + event.clientX + " - Y: " + event.clientY);
+          axios.post('/setDest', {
+            'car': key,
+            'x': event.clientX,
+            'y': event.clientY
+          });
         }
 
       },false);
