@@ -12,7 +12,6 @@ Users that contribute to this calculation are rewarded with tokens.
 
 Why use a distributed app? There are three advantages:
 
-Privacy. People should not have to constantly send their location and destination to a third party. 
-With Inertia, they can stay anonymous on the Ethereum network instead.
-Security. If something goes wrong, a car accident could occur - which is why it is important to use the blockchain, which is much harder to corrupt.
-Lower costs! Inertia does not require a server or additional infrastructure to implement. The clients do the heavy lifting, which also makes it scalable.
+1. Privacy. People should not have to constantly send their location and destination to a third party.With Inertia, they can stay anonymous on the Ethereum network instead.
+2. Security. If something goes wrong, a car accident could occur - which is why it is important to use the blockchain, which is much harder to corrupt.
+3. Lower costs! Inertia does not require a server or additional infrastructure to implement. The clients do the heavy lifting, which also makes it scalable.
